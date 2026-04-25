@@ -1,48 +1,43 @@
-# Tiny Tapeout project information
+# SPDX-FileCopyrightText: © 2026
+# SPDX-License-Identifier: Apache-2.0
+
 project:
-  title:        ""      # Project title
-  author:       ""      # Your name
-  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  ""      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  title:        "ALU"
+  author:       "Monika"
+  discord:      ""
+  description:  "8-bit Arithmetic Logic Unit supporting add, sub, and, or, xor"
+  language:     "Verilog"
+  clock_hz:     0
 
-  # How many tiles your design occupies? A single tile is about 167x108 uM.
-  tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
+  tiles: "1x1"
 
-  # Your top module name must start with "tt_um_". Make it unique by including your github username:
   top_module:  "tt_um_example"
 
-  # List your project's source files here.
-  # Source files must be in ./src and you must list each source file separately, one per line.
-  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "project.v"
 
-# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
-# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
-  # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  # Inputs (8-bit total)
+  ui[0]: "A0 (LSB of operand A)"
+  ui[1]: "A1"
+  ui[2]: "A2"
+  ui[3]: "A3"
+  ui[4]: "B0 (LSB of operand B)"
+  ui[5]: "B1"
+  ui[6]: "OP0 (operation select)"
+  ui[7]: "OP1 (operation select)"
 
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  # Outputs (8-bit result)
+  uo[0]: "Result bit 0 (LSB)"
+  uo[1]: "Result bit 1"
+  uo[2]: "Result bit 2"
+  uo[3]: "Result bit 3"
+  uo[4]: "Result bit 4"
+  uo[5]: "Result bit 5"
+  uo[6]: "Result bit 6"
+  uo[7]: "Result bit 7 (MSB)"
 
-  # Bidirectional pins
+  # Bidirectional (unused)
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
@@ -52,5 +47,4 @@ pinout:
   uio[6]: ""
   uio[7]: ""
 
-# Do not change!
 yaml_version: 6
