@@ -1,20 +1,55 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+This project implements a simple 4-bit Arithmetic Logic Unit (ALU).  
+It performs basic arithmetic and logical operations on two input operands.
+
+### Inputs
+- **A[3:0] (ui[3:0])** → 4-bit operand A  
+- **B[1:0] (ui[5:4])** → 2-bit operand B  
+- **OP[1:0] (ui[7:6])** → Operation select  
+
+### Operations
+
+| OP1 OP0 | Operation        | Description            |
+|--------|-----------------|------------------------|
+| 00     | ADD             | A + B                  |
+| 01     | SUB             | A - B                  |
+| 10     | AND             | A & B                  |
+| 11     | OR              | A \| B                 |
+
+The result is produced on the **8-bit output bus (uo[7:0])**.  
+Lower bits contain the computed result, while upper bits may remain zero depending on the operation.
+
+---
 
 ## How to test
 
-Explain how to use your project
+1. Provide input values:
+   - Set operand **A** using `ui[0]` to `ui[3]`
+   - Set operand **B** using `ui[4]` and `ui[5]`
+   - Select operation using `ui[6]` and `ui[7]`
+
+2. Observe output:
+   - The result appears on `uo[0]` to `uo[7]`
+
+### Example
+
+- A = 5 → `0101`  
+- B = 2 → `10`  
+- OP = `00` (Addition)  
+
+**Expected Output:**
+- Result = 7 → `00000111`
+
+---
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+No external hardware is required.
+
+This design can be tested using:
+- Simulation tools like **cocotb**
+- Tiny Tapeout test infrastructure
+
+Optional:
+- LEDs can be connected to `uo[7:0]` to visualize the result
