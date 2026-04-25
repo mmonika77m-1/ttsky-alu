@@ -1,49 +1,46 @@
+/*
+ * Simple 4-bit ALU for Tiny Tapeout
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 `default_nettype none
-`timescale 1ns / 1ps
 
-/* This testbench just instantiates the module and makes some convenient wires
-   that can be driven / tested by the cocotb test.py.
-*/
-module tb ();
+module tt_um_example (
+    input  wire [7:0] ui_in,    
+    output wire [7:0] uo_out,   
+    input  wire [7:0] uio_in,   
+    output wire [7:0] uio_out,  
+    output wire [7:0] uio_oe,   
+    input  wire       ena,      
+    input  wire       clk,      
+    input  wire       rst_n     
+);
 
-  // Dump the signals to a FST file. You can view it with gtkwave or surfer.
-  initial begin
-    $dumpfile("tb.fst");
-    $dumpvars(0, tb);
-    #1;
+  wire [3:0] A = ui_in[7:4];
+  wire [3:0] B = ui_in[3:0];
+  wire [2:0] op = uio_in[2:0];
+
+  reg [7:0] result;
+
+  always @(*) begin
+    case (op)
+      3'b000: result = A + B;          // ADD
+      3'b001: result = A - B;          // SUB
+      3'b010: result = A & B;          // AND
+      3'b011: result = A | B;          // OR
+      3'b100: result = A ^ B;          // XOR
+      3'b101: result = A << 1;         // SHIFT LEFT
+      3'b110: result = A >> 1;         // SHIFT RIGHT
+      3'b111: result = (A == B) ? 8'd1 : 8'd0; // EQUAL
+      default: result = 8'd0;
+    endcase
   end
 
-  // Wire up the inputs and outputs:
-  reg clk;
-  reg rst_n;
-  reg ena;
-  reg [7:0] ui_in;
-  reg [7:0] uio_in;
-  wire [7:0] uo_out;
-  wire [7:0] uio_out;
-  wire [7:0] uio_oe;
-`ifdef GL_TEST
-  wire VPWR = 1'b1;
-  wire VGND = 1'b0;
-`endif
+  assign uo_out  = result;
+  assign uio_out = 8'b0;
+  assign uio_oe  = 8'b0;
 
-  // Replace tt_um_example with your module name:
-  tt_um_example user_project (
-
-      // Include power ports for the Gate Level test:
-`ifdef GL_TEST
-      .VPWR(VPWR),
-      .VGND(VGND),
-`endif
-
-      .ui_in  (ui_in),    // Dedicated inputs
-      .uo_out (uo_out),   // Dedicated outputs
-      .uio_in (uio_in),   // IOs: Input path
-      .uio_out(uio_out),  // IOs: Output path
-      .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
-      .ena    (ena),      // enable - goes high when design is selected
-      .clk    (clk),      // clock
-      .rst_n  (rst_n)     // not reset
-  );
+  // Prevent unused warnings
+  wire _unused = &{ena, clk, rst_n, uio_in[7:3], 1'b0};
 
 endmodule
